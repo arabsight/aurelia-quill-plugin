@@ -1,6 +1,6 @@
 {
     "name": "aurelia-quill-plugin",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "A Quil wrapper for Aurelia.",
     "scripts": {
         "prepush": "gulp prepare-release --bump=patch",

@@ -31,6 +31,6 @@ define(['exports', './quill-editor', 'aurelia-pal'], function (exports, _quillEd
             aureliaConfig.container.registerInstance('quill-editor-config', options);
         }
 
-        aureliaConfig.globalResources('./quill-editor');
+        aureliaConfig.globalResources(_aureliaPal.PLATFORM.moduleName('./quill-editor'));
     }
 });

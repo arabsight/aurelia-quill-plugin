@@ -17,7 +17,7 @@ System.register(['aurelia-pal', './quill-editor'], function (_export, _context) 
             aureliaConfig.container.registerInstance('quill-editor-config', options);
         }
 
-        aureliaConfig.globalResources('./quill-editor');
+        aureliaConfig.globalResources(PLATFORM.moduleName('./quill-editor'));
     }
 
     _export('configure', configure);
