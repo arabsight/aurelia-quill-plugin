@@ -1,52 +1,64 @@
 # aurelia-skeleton-plugin
 
+## Install
 
-## Building The Code
+```shell
+npm i quill aurelia-quill-plugin
+```
 
-To build the code, follow these steps.
+## Bundle (Aurelia-CLI)
 
-1. Ensure that [NodeJS](http://nodejs.org/) is installed. This provides the platform on which the build tooling runs.
-2. From the project folder, execute the following command:
+```json
+{
+    "name": "quill",
+    "path": "../node_modules/quill/dist",
+    "main": "quill",
+    "resources": [
+        "quill.snow.css"
+    ]
+},
+{
+    "name": "aurelia-quill-plugin",
+    "path": "../node_modules/aurelia-quill-plugin/dist/amd",
+    "main": "index"
+}
+```
 
-  ```shell
-  npm install
-  ```
-3. Ensure that [Gulp](http://gulpjs.com/) is installed. If you need to install it, use the following command:
+## Register
 
-  ```shell
-  npm install -g gulp
-  ```
-4. To build the code, you can now run:
+```js
+aurelia.use.plugin('aurelia-quill-plugin');
+```
 
-  ```shell
-  gulp build
-  ```
-5. You will find the compiled code in the `dist` folder, available in three module formats: AMD, CommonJS and ES6.
+## Usage
 
-6. See `gulpfile.js` for other tasks related to generating the docs and linting.
+```html
+<require from="quill/quill.snow.css"></require>
 
-## Running The Tests
+<quill-editor value.bind="message"></quill-editor>
+```
 
-To run the unit tests, first ensure that you have followed the steps above in order to install all dependencies and successfully build the library. Once you have done that, proceed with these additional steps:
+## Options
 
-1. Ensure that the [Karma](http://karma-runner.github.io/) CLI is installed. If you need to install it, use the following command:
+For global options pass a quil config object when registering the plugin:
 
-  ```shell
-  npm install -g karma-cli
-  ```
-2. Ensure that [jspm](http://jspm.io/) is installed. If you need to install it, use the following commnand:
+```js
+let options = {
+    debug: 'info',
+    modules: {
+        toolbar: '#toolbar'
+    },
+    placeholder: 'Compose an epic...',
+    readOnly: true
+};
 
-  ```shell
-  npm install -g jspm
-  ```
-3. Install the client-side dependencies with jspm:
+aurelia.use.plugin('aurelia-quill-plugin', options);
+```
 
-  ```shell
-  jspm install
-  ```
+If you want per-instance options use the bindable `options` property:
 
-4. You can now run the tests with this command:
-
-  ```shell
-  karma start
-  ```
+```html
+<quill-editor value.bind="content"
+        options.bind="{ placeholder: 'Compose an epic...' }">
+</quill-editor>
+```
