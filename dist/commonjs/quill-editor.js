@@ -93,6 +93,10 @@ var QuillEditor = exports.QuillEditor = (_dec = (0, _aureliaTemplating.inlineVie
         this.editor.on('text-change', this.onTextChanged);
     };
 
+    QuillEditor.prototype.valueChanged = function valueChanged(value) {
+        if (this.editor.root.innerHTML !== value) this.editor.root.innerHTML = value;
+    };
+
     QuillEditor.prototype.detached = function detached() {
         this.editor.off('text-change', this.onTextChanged);
         this.editor = null;

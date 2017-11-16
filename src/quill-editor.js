@@ -32,6 +32,10 @@ export class QuillEditor {
         this.value = this.editor.root.innerHTML;
     }
 
+    valueChanged(value) {
+        if (this.editor.root.innerHTML !== value) this.editor.root.innerHTML = value;
+    }
+
     detached() {
         // clean up
         this.editor.off('text-change', this.onTextChanged);

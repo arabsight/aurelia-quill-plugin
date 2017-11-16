@@ -75,6 +75,10 @@ export let QuillEditor = (_dec = inlineView(`<template>
         this.editor.on('text-change', this.onTextChanged);
     }
 
+    valueChanged(value) {
+        if (this.editor.root.innerHTML !== value) this.editor.root.innerHTML = value;
+    }
+
     detached() {
         this.editor.off('text-change', this.onTextChanged);
         this.editor = null;
