@@ -32,7 +32,7 @@ gulp.task('changelog', (callback) => {
 gulp.task('prepare-release', (callback) => {
     return runSequence(
         'build',
-        'lint',
+        // 'lint',
         'bump-version',
         'changelog',
         callback

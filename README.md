@@ -6,7 +6,7 @@
 npm i quill aurelia-quill-plugin
 ```
 
-## Bundle (Aurelia-CLI)
+## Bundle (Aurelia-CLI - requirejs)
 
 ```json
 {
@@ -28,6 +28,14 @@ npm i quill aurelia-quill-plugin
 
 ```js
 aurelia.use.plugin('aurelia-quill-plugin');
+```
+
+for webpack:
+
+```js
+import 'quill/dist/quill.snow.css';
+
+aurelia.use.plugin(PLATFORM.moduleName('aurelia-quill-plugin'));
 ```
 
 ## Usage
