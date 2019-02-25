@@ -81,7 +81,24 @@ export let QuillEditor = (_dec = inlineView(`<template>
 
     detached() {
         this.editor.off('text-change', this.onTextChanged);
+        this.cleanModules();
+
         this.editor = null;
+        delete this.editor;
+    }
+
+    cleanModules() {
+        let toolbar = this.quillEditor.parentNode.querySelector('.ql-toolbar');
+
+        if (toolbar) {
+            toolbar.remove();
+        }
+
+        this.editor.options.modules.toolbar = null;
+        delete this.editor.options.modules.toolbar;
+
+        this.editor.theme.modules.toolbar = null;
+        delete this.editor.theme.modules.toolbar;
     }
 }, (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'options', [_dec3], {
     enumerable: true,

@@ -30,7 +30,7 @@ export class QuillEditor {
 
     onTextChanged = () => {
         this.value = this.editor.root.innerHTML;
-    }
+    };
 
     valueChanged(value) {
         if (this.editor.root.innerHTML !== value) this.editor.root.innerHTML = value;
@@ -39,6 +39,23 @@ export class QuillEditor {
     detached() {
         // clean up
         this.editor.off('text-change', this.onTextChanged);
+        this.cleanModules();
+
         this.editor = null;
+        delete this.editor;
+    }
+
+    cleanModules() {
+        let toolbar = this.quillEditor.parentNode.querySelector('.ql-toolbar');
+
+        if (toolbar) {
+            toolbar.remove();
+        }
+
+        this.editor.options.modules.toolbar = null;
+        delete this.editor.options.modules.toolbar;
+
+        this.editor.theme.modules.toolbar = null;
+        delete this.editor.theme.modules.toolbar;
     }
 }

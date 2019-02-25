@@ -100,7 +100,24 @@ define(['exports', 'quill', 'aurelia-binding', 'aurelia-dependency-injection', '
 
         QuillEditor.prototype.detached = function detached() {
             this.editor.off('text-change', this.onTextChanged);
+            this.cleanModules();
+
             this.editor = null;
+            delete this.editor;
+        };
+
+        QuillEditor.prototype.cleanModules = function cleanModules() {
+            var toolbar = this.quillEditor.parentNode.querySelector('.ql-toolbar');
+
+            if (toolbar) {
+                toolbar.remove();
+            }
+
+            this.editor.options.modules.toolbar = null;
+            delete this.editor.options.modules.toolbar;
+
+            this.editor.theme.modules.toolbar = null;
+            delete this.editor.theme.modules.toolbar;
         };
 
         return QuillEditor;
