@@ -71,11 +71,14 @@ define(['exports', 'quill', 'aurelia-binding', 'aurelia-dependency-injection', '
 
             _classCallCheck(this, QuillEditor);
 
+            this._textChanged = false;
+
             _initDefineProp(this, 'options', _descriptor, this);
 
             _initDefineProp(this, 'value', _descriptor2, this);
 
             this.onTextChanged = function () {
+                _this._textChanged = true;
                 _this.value = _this.editor.root.innerHTML;
             };
         }
@@ -87,15 +90,19 @@ define(['exports', 'quill', 'aurelia-binding', 'aurelia-dependency-injection', '
 
         QuillEditor.prototype.attached = function attached() {
             this.editor = new _quill2.default(this.quillEditor, this.options);
+
+            this.editor.on('text-change', this.onTextChanged);
+
             if (this.value) {
                 this.editor.root.innerHTML = this.value;
             }
-
-            this.editor.on('text-change', this.onTextChanged);
         };
 
-        QuillEditor.prototype.valueChanged = function valueChanged(value) {
-            if (this.editor.root.innerHTML !== value) this.editor.root.innerHTML = value;
+        QuillEditor.prototype.valueChanged = function valueChanged(newValue, oldValue) {
+            if (newValue !== oldValue && this.editor.root.innerHTML !== newValue && this._textChanged === false) {
+                this.editor.root.innerHTML = this.value;
+            }
+            this._textChanged = false;
         };
 
         QuillEditor.prototype.detached = function detached() {

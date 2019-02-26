@@ -8,6 +8,8 @@ import { bindable, inlineView, customElement } from 'aurelia-templating';
 </template>`)
 @customElement('quill-editor')
 export class QuillEditor {
+    _textChanged = false;
+
     @bindable() options; // per instance options
     @bindable({ defaultBindingMode: bindingMode.twoWay }) value;
 
@@ -21,19 +23,29 @@ export class QuillEditor {
         // initialize a new instance of the Quill editor
         // with the supplied options
         this.editor = new Quill(this.quillEditor, this.options);
+
+        // listen for changes and update the value
+        this.editor.on('text-change', this.onTextChanged);
+
         if (this.value) {
             this.editor.root.innerHTML = this.value;
         }
-        // listen for changes and update the value
-        this.editor.on('text-change', this.onTextChanged);
     }
 
     onTextChanged = () => {
+        this._textChanged = true;
         this.value = this.editor.root.innerHTML;
     };
 
-    valueChanged(value) {
-        if (this.editor.root.innerHTML !== value) this.editor.root.innerHTML = value;
+    valueChanged(newValue, oldValue) {
+        if (
+            newValue !== oldValue &&
+            this.editor.root.innerHTML !== newValue &&
+            this._textChanged === false
+        ) {
+            this.editor.root.innerHTML = this.value;
+        }
+        this._textChanged = false;
     }
 
     detached() {

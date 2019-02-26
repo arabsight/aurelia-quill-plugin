@@ -52,11 +52,14 @@ export let QuillEditor = (_dec = inlineView(`<template>
     <div ref="quillEditor"></div>
 </template>`), _dec2 = customElement('quill-editor'), _dec3 = bindable(), _dec4 = bindable({ defaultBindingMode: bindingMode.twoWay }), _dec(_class = _dec2(_class = (_class2 = class QuillEditor {
     constructor() {
+        this._textChanged = false;
+
         _initDefineProp(this, 'options', _descriptor, this);
 
         _initDefineProp(this, 'value', _descriptor2, this);
 
         this.onTextChanged = () => {
+            this._textChanged = true;
             this.value = this.editor.root.innerHTML;
         };
     }
@@ -68,15 +71,19 @@ export let QuillEditor = (_dec = inlineView(`<template>
 
     attached() {
         this.editor = new Quill(this.quillEditor, this.options);
+
+        this.editor.on('text-change', this.onTextChanged);
+
         if (this.value) {
             this.editor.root.innerHTML = this.value;
         }
-
-        this.editor.on('text-change', this.onTextChanged);
     }
 
-    valueChanged(value) {
-        if (this.editor.root.innerHTML !== value) this.editor.root.innerHTML = value;
+    valueChanged(newValue, oldValue) {
+        if (newValue !== oldValue && this.editor.root.innerHTML !== newValue && this._textChanged === false) {
+            this.editor.root.innerHTML = this.value;
+        }
+        this._textChanged = false;
     }
 
     detached() {
